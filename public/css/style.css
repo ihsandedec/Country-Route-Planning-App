@@ -68,6 +68,94 @@ button:hover {
     font-weight: bold;
 }
 
+/* Yeni eklenen stiller */
+.info-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.info-section h3 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.country-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.country-item {
+    background-color: white;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.country-item:hover {
+    background-color: #f0f8ff;
+}
+
+.country-name {
+    font-weight: 500;
+    color: #333;
+}
+
+.country-code {
+    background-color: #007bff;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.usage-example {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e8f5e8;
+    border-radius: 6px;
+    border-left: 4px solid #28a745;
+}
+
+.usage-example h4 {
+    color: #28a745;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.usage-example p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.example-code {
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    color: #d63384;
+    margin: 5px 0;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
 @media (max-width: 768px) {
     .input-section {
         flex-direction: column;
@@ -77,4 +165,8 @@ button:hover {
     input[type="text"] {
         width: 90%;
     }
-} 
+
+    .country-grid {
+        grid-template-columns: 1fr;
+    }
+}
