@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get "static_pages/index"
   namespace :api do
     post "routes", to: "routes#create"
+    get 'countries', to: 'countries#index'
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
