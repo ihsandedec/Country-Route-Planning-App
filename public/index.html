@@ -15,10 +15,26 @@
         </div>
         <div id="map" class="map-container"></div>
         <div id="errorMessage" class="error-message"></div>
+        
+        <!-- Ülke kodları bilgi bölümü -->
+        <div class="info-section">
+            <h3>📍 Kullanılabilir Ülke Kodları</h3>
+            <div class="country-grid" id="countryGrid">
+                <!-- Ülkeler JavaScript ile dinamik olarak yüklenecek -->
+            </div>
+            
+            <div class="usage-example">
+                <h4>💡 Kullanım Örnekleri:</h4>
+                <p><strong>Tek ülke:</strong> <span class="example-code">TR</span></p>
+                <p><strong>İki ülke arası:</strong> <span class="example-code">TR-BG</span></p>
+                <p><strong>Çoklu rota:</strong> <span class="example-code">TR-BG-RS-HR</span></p>
+                <p><strong>Uzun rota:</strong> <span class="example-code">TR-BG-RS-HR-SI-AT-DE</span></p>
+            </div>
+        </div>
     </div>
 
     <script src="js/script.js"></script>
-    <!-- Google Maps API Key -->
+    <!-- Google Maps API anahtarınızı buraya ekleyin -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS8y8iFPYH6HBWEhBpp3xCleeEOix84UI&callback=initMap"></script>
 </body>
-</html> 
+</html>
