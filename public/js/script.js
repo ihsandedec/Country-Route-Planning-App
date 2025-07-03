@@ -1,27 +1,28 @@
 let map;
 let routePolyline;
 let errorMessageDiv;
+let countries = []; // Dinamik olarak yüklenecek
 
-
+// Google Haritasını başlatan fonksiyon
 function initMap() {
     errorMessageDiv = document.getElementById('errorMessage');
 
-
+    // Haritayı Avrupa merkezine odakla
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 48.69096, lng: 9.140625 }, 
-        zoom: 4, 
+        center: { lat: 48.69096, lng: 9.140625 }, // Avrupa merkezi civarı
+        zoom: 4, // Başlangıç yakınlaştırma seviyesi
     });
 
-
+    // Daha önce çizilmiş bir rota varsa kaldır
     if (routePolyline) {
         routePolyline.setMap(null);
     }
 }
 
-
+// Rota çizme fonksiyonu
 function drawRoute(coordinates) {
     if (routePolyline) {
-        routePolyline.setMap(null); 
+        routePolyline.setMap(null); // Önceki rotayı temizle
     }
 
     routePolyline = new google.maps.Polyline({
@@ -34,26 +35,93 @@ function drawRoute(coordinates) {
 
     routePolyline.setMap(map);
 
-   
+    // Rotayı haritada ortala
     const bounds = new google.maps.LatLngBounds();
     coordinates.forEach(coord => bounds.extend(coord));
     map.fitBounds(bounds);
 }
 
-
+// Hata mesajını göster/gizle
 function showErrorMessage(message) {
     errorMessageDiv.textContent = message;
     errorMessageDiv.style.display = message ? 'block' : 'none';
 }
 
+// Ülke kodlarını backend'den al
+async function loadCountries() {
+    try {
+        const response = await fetch('/api/countries');
+        
+        if (response.ok) {
+            const data = await response.json();
+            countries = data;
+            displayCountryCodes();
+        } else {
+            console.error('Ülke verileri yüklenemedi');
+            // Yedek olarak boş liste göster
+            displayCountryCodes();
+        }
+    } catch (error) {
+        console.error('Ülke verileri yüklenirken hata:', error);
+        displayCountryCodes();
+    }
+}
 
+// Ülke kodlarını sayfada göster
+function displayCountryCodes() {
+    const countryGrid = document.getElementById('countryGrid');
+    
+    if (countries.length === 0) {
+        countryGrid.innerHTML = '<div class="loading">Ülke kodları yükleniyor...</div>';
+        return;
+    }
+    
+    countryGrid.innerHTML = ''; // Önceki içeriği temizle
+    
+    countries.forEach(country => {
+        const countryItem = document.createElement('div');
+        countryItem.className = 'country-item';
+        countryItem.innerHTML = `
+            <span class="country-name">${country.name}</span>
+            <span class="country-code">${country.code}</span>
+        `;
+        
+        // Tıklandığında ülke kodunu input'a ekle
+        countryItem.addEventListener('click', () => {
+            addCountryToInput(country.code);
+        });
+        
+        countryGrid.appendChild(countryItem);
+    });
+}
+
+// Ülke kodunu input alanına ekle
+function addCountryToInput(countryCode) {
+    const input = document.getElementById('countryCodes');
+    const currentValue = input.value.trim();
+    
+    if (currentValue === '') {
+        input.value = countryCode;
+    } else if (!currentValue.includes(countryCode)) {
+        input.value = currentValue + '-' + countryCode;
+    }
+    
+    // Input'a odaklan
+    input.focus();
+}
+
+// DOM yüklendiğinde çalışacak olay dinleyici
 document.addEventListener('DOMContentLoaded', () => {
     const countryCodesInput = document.getElementById('countryCodes');
     const showRouteBtn = document.getElementById('showRouteBtn');
 
+    // Ülke kodlarını yükle
+    loadCountries();
+
     showRouteBtn.addEventListener('click', async () => {
         const countryCodes = countryCodesInput.value.trim();
-        showErrorMessage(''); 
+        showErrorMessage(''); // Önceki hataları temizle
+
         if (!countryCodes) {
             showErrorMessage('Lütfen ülke kodlarını girin.');
             return;
@@ -78,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     showErrorMessage('Rota verisi bulunamadı.');
                 }
             } else {
-                
+                // Backend'den gelen hata mesajlarını göster
                 showErrorMessage(data.error || 'Bir hata oluştu.');
             }
         } catch (error) {
@@ -86,4 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
             showErrorMessage('Sunucuya bağlanılamadı veya beklenmeyen bir hata oluştu.');
         }
     });
-}); 
+
+    // Enter tuşu ile rota göster
+    countryCodesInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            showRouteBtn.click();
+        }
+    });
+});
