@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ülke Rota Uygulaması</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Ülke Rota Uygulaması</h1>
+        <div class="input-section">
+            <input type="text" id="countryCodes" placeholder="Ülke Kodları Girin (örn: TR-BG-RS)">
+            <button id="showRouteBtn">Rota Göster</button>
+        </div>
+        <div id="map" class="map-container"></div>
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <!-- Google Maps API Key -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS8y8iFPYH6HBWEhBpp3xCleeEOix84UI&callback=initMap"></script>
+</body>
+</html> 
