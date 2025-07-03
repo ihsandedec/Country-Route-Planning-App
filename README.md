@@ -61,7 +61,5 @@ Bu uygulama, iki veya daha fazla ülke kodu girerek bu ülkeler arasında harita
 
 ## Uygulamadan Görüntüler
 
-Her mikroservisin test sonuçlarını görüntüleyebilirsiniz:
-
 - [Ana Sayfa](/app/assets/img/homepage1.png)
 - [Ana Sayfa](/app/assets/img/homepage2.png)
